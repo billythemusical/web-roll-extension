@@ -1,15 +1,32 @@
 {
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Autoscroll Extension",
+    "description": "Automatic page scrolling in the browser.",
     "version": "1.0",
-    "browser_action": {
-      "default_popup": "popup.html"
+    "icons": {
+      "16": "images/icon-16.png",
+      "32": "images/icon-32.png",
+      "192": "images/icon-192.png"
+    },
+    "action": {
+      "default_popup": "popup.html",
+      "default_icon": "autoscroll-icon.png"
     },
     "background": {
-        "scripts": ["background.js", "content.js"]
+        "service_worker": "background.js"
      },
-    "permissions": [
-      "activeTab"
-    ]
+    "permissions": ["activeTab", "scripting"],
+    "content_scripts": [{
+      "js": ["content.js"],
+      "matches": ["http://*/*", "https://*/*"]
+    }],
+    "commands": {
+      "_execute_action": {
+        "suggested_key": {
+          "default": "Alt+Shift+S",
+          "mac": "Alt+Shift+S"
+        }
+      }
+    }
   }
   
