@@ -1,18 +1,27 @@
 <html>
 <head>
-  <style>
-    .slider {
-      width: 200px;
-    }
-  </style>
+  <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <h3>Autoscroll Extension</h3>
   <label for="speed">Speed:</label>
-  <input type="range" min="1" max="10" value="4" class="slider" id="speed">
+  <input type="range" min="1" max="10" step="1" value="1" class="slider" id="speed">
   <br><br>
-  <button id="start">Start Autoscroll</button>
-  <button id="reset">Reset</button>
+  <button id="start">Start</button>
+  <button id="stop">Stop</button>  
+  <button id="reset">Back To Top</button>
+  <br><br>
+  <!-- <input type="checkbox" id="cursorCheckbox" name="cursorCheckbox" checked> -->
+  <!-- <label for="cursorCheckbox"> Hide cursor on scroll</label> -->
+  <h3>Directions</h3>
+  <ul>
+    <li>Click 'Start' to begin scrolling.</li>
+    <li>The cursor will disappear while scrolling.</li>
+    <li>Click 'Stop' or anywhere on the page to stop.</li>
+    <li>Refresh the page if you're having trouble.</li>
+  </ul>
   <script src="popup.js"></script>
 </body>
 </html>
+
+

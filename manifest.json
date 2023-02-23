@@ -1,33 +1,38 @@
 {
-    "manifest_version": 3,
-    "name": "Autoscroll Extension",
-    "description": "Automatic page scrolling in the browser.",
-    "version": "1.0",
-    "icons": {
-      "16": "images/icon-16.png",
-      "32": "images/icon-32.png",
-      "192": "images/icon-192.png",
-      "512": "images/icon-512.png"
+  "manifest_version": 3,
+  "name": "Autoscroll Extension",
+  "description": "Automatic page scrolling in the browser.",
+  "version": "1.0",
+  "icons": {
+    "16": "images/icon-16.png",
+    "32": "images/icon-32.png",
+    "192": "images/icon-192.png",
+    "512": "images/icon-512.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": "images/icon-512.png"
+  },
+  "background": {
+      "service_worker": "background.js"
     },
-    "action": {
-      "default_popup": "popup/popup.html",
-      "default_icon": "images/icon-512.png"
-    },
-    "background": {
-        "service_worker": "background.js"
-     },
-    "permissions": ["activeTab", "scripting"],
-    "content_scripts": [{
-      "js": ["scripts/content.js"],
-      "matches": ["<all_urls>"]
-    }],
-    "commands": {
-      "_execute_action": {
-        "suggested_key": {
-          "default": "Alt+Shift+S",
-          "mac": "Alt+Shift+S"
-        }
-      }
+  "permissions": [
+    "activeTab", 
+    "scripting",
+    "storage"
+  ],
+  "content_scripts": [{
+    "js": ["scripts/content.js"],
+    "matches": ["<all_urls>"]
+  }],
+  "commands": {
+    "start_scroll": {
+      "suggested_key": {
+        "default": "Alt+Shift+S",
+        "mac": "Alt+Shift+S"
+      },
+      "description": "Starts the page scrolling."
     }
   }
+}
   
