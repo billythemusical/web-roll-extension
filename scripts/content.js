@@ -1,5 +1,3 @@
-console.log('running content.js script')
-
 let speed = 1
 let loopInterval = 1
 let loopTimeoutObject = null
