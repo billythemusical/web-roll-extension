@@ -1,11 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Autoscroll Extension",
+  "name": "Web Roll Extension",
   "description": "Automatic page scrolling in the browser.",
-  "version": "0.1",
+  "version": "0.1.1",
   "icons": {
     "16": "images/icon-16.png",
     "32": "images/icon-32.png",
+    "128": "images/icon-128.png",
     "192": "images/icon-192.png",
     "512": "images/icon-512.png"
   },
@@ -18,21 +19,11 @@
   },
   "permissions": [
     "activeTab", 
-    "scripting",
-    "storage"
+    "scripting"
   ],
   "content_scripts": [{
     "js": ["scripts/content.js"],
     "matches": ["<all_urls>"]
-  }],
-  "commands": {
-    "start_scroll": {
-      "suggested_key": {
-        "default": "Alt+Shift+S",
-        "mac": "Alt+Shift+S"
-      },
-      "description": "Starts the page scrolling."
-    }
-  }
+  }]
 }
   
