@@ -100,6 +100,7 @@ function scrollDown() {
             document.body.removeEventListener("click", clickHandler)
         } else {
             console.log("[apparently] hit bottom of page retrying: " + (retry + 1))
+            toggleCursor()
             retry++
         }
     }
