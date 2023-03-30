@@ -4,6 +4,7 @@ let loopTimeoutObject = null
 let scrolling = false, prevScrolling = false
 let retry = 0
 let hideCursorOnScroll = true
+let showInstructions = true
 
 updateAndComputeSpeed(speed)
 
@@ -13,8 +14,11 @@ const sleep = ms => new Promise(r => setTimeout(r, ms))
 
 async function handleRequest(message) {
 
-	if (message.checkbox) {
-		updateCursorSwitch(message.checkbox)
+	if (message.showCursor) {
+		hideCursorOnScroll = message.showCursor
+	}
+	if (message.showInstructions) {
+		showInstructions = message.showInstructions
 	}
 	if(message.speed) {
 		updateAndComputeSpeed(message.speed)
@@ -38,6 +42,11 @@ function clickHandler () {
 }
 
 async function startScroll() {
+	if (showInstructions) {
+		showModal()
+		await sleep(5000)
+	}
+	
 	if (hideCursorOnScroll) {
 		scrolling = true
 		toggleCursor()
@@ -96,32 +105,91 @@ function updateAndComputeSpeed(s) {
 	speed = s
 }
 
-function updateCursorSwitch(checkboxValue) {
-	hideCursorOnScroll = checkboxValue
-}
-
 function toggleCursor() {
-
 	const locked = document.pointerLockElement === document.body
-	console.log(`locked: ${locked}`)
-
+	console.log(`locked? ${locked}`)
 	if (scrolling && !locked) {
 		document.body.requestPointerLock()
-		// document.documentElement.style.height = '100%'
-		// document.body.style.height = '100%'
-		// document.body.style.cursor = 'none'
-		// const links = document.getElementsByTagName('a')
-		// for (let link of links) {
-		// 	link.style.cursor = 'none'
-		// }
 	} else if (!scrolling && locked) {
 		document.body.exitPointerLock()
-		// document.body.style.cursor = 'default'
-		// const links = document.getElementsByTagName('a')
-		// for (let link of links) {
-		// 	link.style.cursor = 'default'
-		// }
 	}
 }
+
+/**
+ * Modal Stuff
+ */
+
+// Create the modal element
+var modal = document.createElement('div');
+modal.setAttribute('id', 'modal');
+
+var heading = document.createElement('h2');
+heading.innerText = 'Directions';
+
+var paragraph1 = document.createElement('p');
+paragraph1.innerText = 'The screen will begin scrolling in 5 seconds.';
+
+var paragraph2 = document.createElement('p');
+paragraph2.innerText = 'Your mouse cursor will disappear for this time.';
+
+var paragraph3 = document.createElement('p');
+paragraph3.innerText = 'Press the Escape key (ESC) at any time to stop scrolling and bring the cursor back.';
+
+modal.appendChild(heading);
+modal.appendChild(paragraph1);
+modal.appendChild(paragraph2);
+modal.appendChild(paragraph3);
+
+// Add the modal element to the document
+document.body.appendChild(modal);
+
+// Add CSS styles for the modal
+var style = document.createElement('style');
+style.innerHTML = `
+  #modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 999;
+    text-align: center;
+    color: #fff;
+    font-size: 2em;
+    padding-top: 10%;
+  }
+
+  #modal h2 {
+    font-size: 3em;
+    margin-bottom: 1em;
+  }
+`;
+document.head.appendChild(style);
+
+
+function showModal() {
+	// Show the modal
+	modal.style.display = 'block';
+}
+
+function hideModal() {
+	// Hide the modal and start scrolling after 5 seconds
+	modal.style.display = 'none';
+	document.body.style.overflow = 'hidden';
+	document.documentElement.style.overflow = 'hidden';
+}
+
+
+// Stop scrolling and show the cursor when the Escape key is pressed
+document.addEventListener('keydown', function (event) {
+	if (event.key === 'Escape') {
+		document.body.style.overflow = 'auto';
+		document.documentElement.style.overflow = 'auto';
+		stopScrolling()
+	}
+});
+
 
 

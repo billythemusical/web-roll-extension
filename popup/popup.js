@@ -8,11 +8,15 @@ const reset = document.getElementById('reset')
 reset.addEventListener('click', handleReset)
 
 const speedSlider = document.getElementById('speed')
-speedSlider.oninput = updateSpeed
+speedSlider.oninput = updateState
 
-updateSpeed()
+const showInstructions = document.getElementById('showInstructions')
+showInstructions.onclick = updateState
+
+updateState()
 
 function handleStart() { 
+	updateState()
 	chrome.runtime.sendMessage({ start: 'start' })
 	chrome.extension.getViews({ type: 'popup' }).forEach(function (view) {
 		view.close()
@@ -27,6 +31,9 @@ function handleReset() {
 	chrome.runtime.sendMessage({ reset: 'reset' })
 }
 
-function updateSpeed() {
-	chrome.runtime.sendMessage({ speed: speedSlider.value })
+function updateState() {
+	chrome.runtime.sendMessage({ 
+		speed: speedSlider.value,
+		showInstructions: showInstructions.checked
+	})
 }
